@@ -1,0 +1,53 @@
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <vector>
+
+
+int main()
+{
+	sf::RenderWindow window(sf::VideoMode(700, 700), "Jeu");
+	while (window.isOpen())
+	{
+		std::vector<sf::RectangleShape> lines;
+		// Lignes verticales
+		lines.push_back(sf::RectangleShape(sf::Vector2f(2, 700)));
+		lines.push_back(sf::RectangleShape(sf::Vector2f(2, 700)));
+		lines.push_back(sf::RectangleShape(sf::Vector2f(2, 700)));
+		lines.push_back(sf::RectangleShape(sf::Vector2f(2, 700)));
+		lines.push_back(sf::RectangleShape(sf::Vector2f(2, 700)));
+		// Lignes horizontales
+		lines.push_back(sf::RectangleShape(sf::Vector2f(700, 2)));
+		lines.push_back(sf::RectangleShape(sf::Vector2f(700, 2)));
+		lines.push_back(sf::RectangleShape(sf::Vector2f(700, 2)));
+		lines.push_back(sf::RectangleShape(sf::Vector2f(700, 2)));
+		lines.push_back(sf::RectangleShape(sf::Vector2f(700, 2)));
+		// Positionnement des lignes
+		lines[0].setPosition(117, 0);
+		lines[1].setPosition(233, 0);
+		lines[2].setPosition(350, 0);
+		lines[3].setPosition(467, 0);
+		lines[4].setPosition(584, 0);
+		lines[5].setPosition(0, 117);
+		lines[6].setPosition(0, 233);
+		lines[7].setPosition(0, 350);
+		lines[8].setPosition(0, 467);
+		lines[9].setPosition(0, 584);
+		// Lignes de couleurs noires
+		for (size_t i = 0; i < lines.size(); i++)
+			lines[i].setFillColor(sf::Color::Blue);
+		// Affichage
+		for (size_t i = 0; i < lines.size(); i++)
+			window.draw(lines[i]);
+
+		sf::Event event;
+		while (window.pollEvent(event)) {
+			// Demande de fermeture de la fenêtre
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		window.display();
+	}
+	system("pause");
+	return 0;
+}
