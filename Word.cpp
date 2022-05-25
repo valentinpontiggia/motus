@@ -9,7 +9,7 @@ using namespace std;
 Word::Word(string nom, int taille)
 {
 	// Creation et initialisation du tableau dynamique 	
-	string nom_ = nom;
+	nom_ = nom;
 	//for (int i = 0; i < taille; i++) nom_[i] = 0;
 	taille_ = taille;
 }
@@ -18,8 +18,7 @@ Word::Word(string nom, int taille)
 {
 	// Initialisation des champs
 	taille_ = c.taille_;
-
-	// Creation et initialisation du tableau dynamique 	
+	// Creation et initialisation du tableau dynamique
 	nom_ = new string [taille_];
 	for (int i = 0; i < taille_; i++) tableau_[i] = c.tableau_[i];
 }*/
@@ -27,14 +26,14 @@ Word::Word(string nom, int taille)
 Word::~Word()
 {
 	// Destruction du tableau dynamique
-	delete[] &nom_;
+	delete[] & nom_;
 }
 
 char& Word::operator[](int i)
 {
 	if (i < 0 || i >= taille_)
 	{
-		cerr << "Dépassement d'indice : i = " << i;
+		cerr << "DÃ©passement d'indice : i = " << i;
 		abort();
 	}
 	return nom_[i];
@@ -48,7 +47,6 @@ char& Word::operator[](int i)
 		}
 		return *this;
 	}
-
 	for (int i = 0; i < taille_; i++) nom_[i] = c.nom_[i];
 }*/
 
@@ -57,14 +55,16 @@ char& Word::operator[](int i)
 	cout << "Entrer une combinaison de " << taille_ << " chiffres"
 		<< " entre 1 et " << nbCouleurs_ << endl
 		<< "en separant les chiffres par des espaces :" << endl;
-
-	// On pourrait aussi vérifier la validité des entrées
+	// On pourrait aussi vÃ©rifier la validitÃ© des entrÃ©es
 	for (int i = 0; i < taille_; i++) cin >> tableau_[i];
 }*/
 
 void Word::afficher() const
 {
-	for (int i = 0; i < taille_; i++) cout << nom_[i] << " ";
+	for (int i = 0; i < taille_; i++)
+	{
+		cout << nom_[i] << " ";
+	}
 	cout << endl;
 }
 
@@ -73,11 +73,9 @@ void Word::afficher() const
 	// Creation et initialisation du tableau des couleurs disponibles
 	int* couleurs = new int[nbCouleurs_];
 	for (int i = 0; i < nbCouleurs_; i++) couleurs[i] = i + 1;
-
-	// Initialisation du générateur aléatoire
+	// Initialisation du gÃ©nÃ©rateur alÃ©atoire
 	srand(time(NULL));
-
-	// Tirage aléatoire des couleurs
+	// Tirage alÃ©atoire des couleurs
 	int pMax = nbCouleurs_;	// Nombre de couleurs disponibles
 	for (int i = 0; i < taille_; i++)
 	{
@@ -86,12 +84,11 @@ void Word::afficher() const
 		couleurs[p] = couleurs[pMax - 1];
 		pMax--;
 	}
-
 	// Destruction du tableau des couleurs
 	delete[] couleurs;
 }*/
 
-// Version valable uniquement si la combinaison à chercher et la proposition ne comportent pas de répétitions de couleurs
+// Version valable uniquement si la combinaison Ã  chercher et la proposition ne comportent pas de rÃ©pÃ©titions de couleurs
 /*void Keyword::verifier(const Keyword& c, int& nbBonnePos, int& nbMauvaisePos) const
 {
 	nbBonnePos = 0;
@@ -105,13 +102,13 @@ void Word::afficher() const
 		}
 }*/
 
-// Version qui fonctionne s'il y a des répétitions de couleurs dans la combinaison à chercher et/ou dans la proposition
+// Version qui fonctionne s'il y a des rÃ©pÃ©titions de couleurs dans la combinaison Ã  chercher et/ou dans la proposition
 /*void Combinaison::verifier(const Combinaison &c,int &nbBonnePos,int &nbMauvaisePos) const
 {
-// Création de deux copies des combinaisons pour ne pas modifier les originaux
+// CrÃ©ation de deux copies des combinaisons pour ne pas modifier les originaux
 Combinaison comb1(*this);
 Combinaison comb2(c);
-// Recherche des bien placés
+// Recherche des bien placÃ©s
 nbBonnePos=0;
 for(int i=0;i<taille_;i++)
 {
@@ -122,7 +119,7 @@ comb2[i]=0;
 comb1[i]=0;
 }
 }
-// Recherche des mal placés
+// Recherche des mal placÃ©s
 nbMauvaisePos=0;
 for(int i=0;i<taille_;i++)
 {
