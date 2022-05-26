@@ -68,14 +68,16 @@ void drawword(RenderWindow &window, Word word, Word w2, int p1, int p2, Text tex
 
 	Text text2;
 	font.loadFromFile("arial.ttf");
-	string s, s2;
-	int p3 = 0, p4 = 0, p5 = 20, p6 = 0, p7 = 2, p8 = 0, r = 0, b=0;
-	string s3 = MinToMaj(word.getNom());
-	bool a = false;
+	string s, s2, s3;
+	int p3 = 0, p4 = -59, p5 = 0, p6 = -59, p7 = -59, p8 = -59, r = 0, b = 0, p9 = 25, c = 0;
+	string s4 = MinToMaj(word.getNom());
+	RectangleShape carre2(Vector2f(116, 116));
+	carre2.setFillColor(Color::Black);
 	while (window.isOpen())
 	{
 		drawgrid(window);
 		Event event;
+		
 		while (window.pollEvent(event))
 		{
 			// Demande de fermeture de la fenêtre
@@ -87,28 +89,29 @@ void drawword(RenderWindow &window, Word word, Word w2, int p1, int p2, Text tex
 
 				if (event.text.unicode < 128)
 				{
-						s = static_cast<char>(event.text.unicode);
-						s2 += static_cast<char>(event.text.unicode);
-						// transformation de la chaine en majuscule
-						s = MinToMaj(s);
-						s2 = MinToMaj(s2);
-						// choix de la police à utiliser
-						text.setFont(font); // font est un sf::Font
+					c = 0;
+					s = static_cast<char>(event.text.unicode);
+					s3 += static_cast<char>(event.text.unicode);
+					// transformation de la chaine en majuscule
+					s = MinToMaj(s);
+					s3 = MinToMaj(s3);
+					// choix de la police à utiliser
+					text.setFont(font); // font est un sf::Font
 
-						// choix de la chaîne de caractères à afficher
-						text.setString(s);
-						// choix de la taille des caractères
-						text.setCharacterSize(100); // exprimée en pixels, pas en points !
+					// choix de la chaîne de caractères à afficher
+					text.setString(s);
+					// choix de la taille des caractères
+					text.setCharacterSize(100); // exprimée en pixels, pas en points !
 
-						// choix de la couleur du texte
-						text.setFillColor(sf::Color::White);
+					// choix de la couleur du texte
+					text.setFillColor(sf::Color::White);
 
-						text.setPosition(p1, p2);
-						p1 = p1 + 116;
-						if (s2.size() > 6)
-						{
-							s2.resize(6);
-						}
+					text.setPosition(p1, p2);
+					p1 = p1 + 116;
+					if (s3.size() > 6)
+					{
+						s3.resize(6);
+					}
 
 				}
 
@@ -119,54 +122,77 @@ void drawword(RenderWindow &window, Word word, Word w2, int p1, int p2, Text tex
 			{
 				p2 = p2 + 58;
 				p1 = 25;
-				s2 = "";
 				p4 = p4 + 59;
 				p6 = p6 + 59;
 				p7 = p7 + 59;
 				p8 = p8 + 59;
 				r = 0;
 				b = 1;
-								
+				s2 = s3;
+				s3 = "";
+
 			}
-			
-		}
-		window.draw(text);
-		// Verification de la  premiere ligne
-		
-		//cout << s2;
-		if (s2.size()==6 || a == true)
-		{
-			for (int k = 0; k < 6; k++)
+
+
+			if (event.key.code == sf::Keyboard::BackSpace || event.key.code == sf::Keyboard::Delete)
+
 			{
-				for (int l = 0; l < 6; l++)
+				p1 = p1 - 116;
+				s3.resize(s3.size() - 1);
+				s = "";
+				carre2.setPosition(p1, p2);
+				c = 1;
+			}
+
+		}
+		if (c == 1)
+		{
+
+			window.draw(carre2);
+			drawgrid(window);
+		}
+		else
+		{
+			window.draw(text);
+		}
+		// Verification de la  premiere ligne
+
+		//cout << s2;
+		if (s2.size() == 6)
+		{
+			if (b == 1)
+			{
+				for (int k = 0; k < 6; k++)
 				{
-					if (s2[k] == s3[l])
+					for (int l = 0; l < 6; l++)
 					{
-						drawreplace(window, p3 + k * 117, p7);
-						text.setString(s2[k]);
-						text.setPosition(p5 + k * 117, p8);
-						drawgrid(window);
+						if (s2[k] == s4[l])
+						{
+							drawreplace(window, p3 + k * 116, p7);
+							text.setString(s2[k]);
+							text.setPosition(p9 + k * 116, p8);
+							window.draw(text);
+						}
+					}
+
+				}
+				for (int i = 0; i < 6; i++)
+				{
+
+					if (s2[i] == s4[i])
+					{
+
+						drawright(window, p3 + i * 116, p4);
+						text.setString(s2[i]);
+						r = r + 1;
+						text.setPosition(p9 + i * 116, p6);
 						window.draw(text);
 					}
+					else
+						r = 0;
 				}
-
 			}
-			for (int i = 0; i < 6; i++)
-			{
-
-				if (s2[i] == s3[i])
-				{
-
-					drawright(window, p3 + i * 117, p4);
-					text.setString(s2[i]);
-					r = r + 1;
-					text.setPosition(p5 + i * 117, p6);
-					drawgrid(window);
-					window.draw(text);
-				}
-				else
-					r = 0;
-			}
+				drawgrid(window);
 		}
 		window.display();
 	}
@@ -182,7 +208,7 @@ void drawright(RenderWindow &window, int p2, int p3)
 
 void drawreplace(RenderWindow &window, int p2, int p3)
 {
-	CircleShape circle(50);
+	CircleShape circle(55);
 	circle.setFillColor(Color::Yellow);
 	circle.setPosition(p2, p3);
 	window.draw(circle);
