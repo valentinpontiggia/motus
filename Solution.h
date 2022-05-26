@@ -2,10 +2,10 @@
 #include <string>
 #include "Word.h"
 using namespace std;
-
+// Contient la solution tirée aléatoirement
 class Solution : public Word
 {
 	Word sol_;
 public:
-	string tirerAleatoirement();
+	Solution tirerAleatoirement();
 };
