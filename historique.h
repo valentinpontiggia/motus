@@ -1,7 +1,21 @@
 #pragma once
 #include <iostream>
+#include "SFML/Graphics.hpp"
+using namespace sf;
 using namespace std;
 
-void historique(int nb_essais);
+class Historique
+{
+	Font font;
+	Text historique[3];
 
-void afficherHistorique();
+public:
+	Historique(float hauteur, float largeur, float moyenne);
+	~Historique();
+
+	void ecrireHistorique(int nb_essais);
+	void afficher(RenderWindow& window);
+	void afficherHistorique(Historique historique);
+	double calculerMoyenne();
+
+};
