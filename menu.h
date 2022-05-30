@@ -10,7 +10,8 @@ class Menu
 public:
 	Menu(float hauteur, float largeur);
 	~Menu();
-	void afficherMenu();
+	void afficherMenu(Menu menu);
 	void afficher(RenderWindow& window);
 
 };
+
