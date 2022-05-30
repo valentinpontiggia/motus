@@ -7,7 +7,7 @@ using namespace std;
 class Historique
 {
 	Font font;
-	Text historique[3];
+	Text historique[4];
 
 public:
 	Historique(float hauteur, float largeur, float moyenne);
@@ -15,7 +15,7 @@ public:
 
 	void ecrireHistorique(int nb_essais);
 	void afficher(RenderWindow& window);
-	void afficherHistorique(Historique historique);
+	void afficherHistorique(Historique historique, RenderWindow& window);
 	double calculerMoyenne();
 
 };
