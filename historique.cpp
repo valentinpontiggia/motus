@@ -7,44 +7,58 @@
 using namespace sf;
 using namespace std;
 
-void Historique :: ecrireHistorique(int nb_essais)
+void Historique :: ecrireHistorique(string mot, int nb_essais, bool victoire) //à mettre dans fichier jeu
 {
-	ofstream historique("historique.txt");
-	historique << to_string(nb_essais) << endl; // rentre nb_essais dans le fichier historique.txt
+	fstream historique("historique.txt"); //ouvre le fichier historique.txt dans historique
+	if (historique.is_open())
+	{
+		
+	historique.seekp(0, ios::end); //place le curseur à la fin du fichier
+	if (victoire)
+		historique << "      "+to_string(nb_essais) + "               " + mot + "          Victoire" + "\n"; // rentre nb_essais dans le fichier historique.txt
+	else
+		historique << "      "+to_string(nb_essais) + "               " + mot + "          Défaite" + "\n";
+	}
 	historique.close();
 }
 
-double Historique :: calculerMoyenne()
+vector<string> Historique::enregistrerHisto()
 {
-	ifstream historique;
-	int total = 0;
-	string nb_essais;
-	int compteur = 0;
-	historique.open("historique.txt");
-	if (!historique.is_open())
-		cout << "Le fichier n existe pas " << endl;
-	else
-		while (getline(historique, nb_essais))
-		{
-			int int_nb_essais = stoi(nb_essais);
-			total = total + int_nb_essais;
-			compteur++;
-		}
-	return (total / compteur);
+	vector<string> copieHisto;
+	string histo;
+	ifstream historique("historique.txt");
+	if (historique.is_open())
+	{
+		while (getline(historique, histo))
+			copieHisto.push_back(histo); //lit ligne par ligne le fichier historique.txt et écris chaque ligne dans un vecteur de string
+	}
+	historique.close();
+	return copieHisto;
 }
 
-Historique::Historique(float moyenne, float largeur, float hauteur)
+
+Historique::Historique(float largeur, float hauteur)
 {
 	if (!font.loadFromFile("arial.ttf"))
 	{
 
 	}
 	ifstream file;
-	string nb_essais;
-	string strmoyenne(to_string(moyenne));
-	file.open("historique.txt");
-	getline(file, nb_essais); // Récupère la première ligne du fichier historique.txt (= le dernier nb de tentatives)
+	vector<string> vectHisto = enregistrerHisto(); //crée le veteur de string contenant les lignes du fichier historique.txt
+	vector<string> dernierscoups; //vecteur de string de destination qui contiendra ces lignes dans l'ordre inverse (seules les dernières parties nous intéressent)
+	vector<string>::reverse_iterator it;
 
+	for (it = vectHisto.rbegin(); it != vectHisto.rend(); it++)//on lit le vecteur-copie de historique.txt dans l'ordre inverse à l'aide d'un reverse iterator
+	{
+		dernierscoups.push_back(string(*it)); //et on écrit chacune de ces lignes dans le nouveau vecteur dernierscoups
+	}
+	for (int i = 0; i <= dernierscoups.size() && i < 4; i++) //
+	{
+		historique[i+2].setFont(font);
+		historique[i+2].setFillColor(Color::White);
+		historique[i + 2].setString(dernierscoups[i]);
+
+	}
 	historique[0].setFont(font);
 	historique[0].setFillColor(Color::Red);
 	historique[0].setCharacterSize(45);
@@ -53,18 +67,19 @@ Historique::Historique(float moyenne, float largeur, float hauteur)
 
 	historique[1].setFont(font);
 	historique[1].setFillColor(Color::White);
-	historique[1].setString("Dernier nombres de tentative : "+nb_essais);
-	historique[1].setPosition(Vector2f(100, 320));
+	historique[1].setCharacterSize(38);
+	historique[1].setString("Essais       Mot      Résultat");
+	historique[1].setPosition(Vector2f(100, 250));
 
-	historique[2].setFont(font);
-	historique[2].setFillColor(Color::White);
-	historique[2].setString("Moyenne de tentatives : "+strmoyenne);
-	historique[2].setPosition(Vector2f(100, 450));
+	historique[2].setPosition(Vector2f(100, 310));
+	historique[3].setPosition(Vector2f(100, 360));
+	historique[4].setPosition(Vector2f(100, 410));
+	historique[5].setPosition(Vector2f(100, 460));
 
-	historique[3].setFont(font);
-	historique[3].setFillColor(Color::White);
-	historique[3].setString("~ Retour au menu ~");
-	historique[3].setPosition(Vector2f(220, 580));
+	historique[6].setFont(font);
+	historique[6].setFillColor(Color::White);
+	historique[6].setString("~ Retour au menu ~");
+	historique[6].setPosition(Vector2f(220, 580));
 }
 
 
@@ -74,7 +89,7 @@ Historique::~Historique()
 
 void Historique::afficher(RenderWindow& window)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		window.draw(historique[i]);
 	}
@@ -88,7 +103,7 @@ void Historique::afficherHistorique(Historique historique, RenderWindow& window)
 	window1.create(VideoMode(700, 700), "MOTUS");
 	window1.clear();
 	historique.afficher(window1);
-	window1.display();
+	window1.display(); //affiche l'historique
 	while (window1.isOpen())
 	{
 		while (window1.pollEvent(event))
@@ -100,7 +115,7 @@ void Historique::afficherHistorique(Historique historique, RenderWindow& window)
 					{
 						window1.close();
 						Menu menu(700, 700);
-						menu.afficherMenu(menu);
+						menu.afficherMenu(menu); //retour au menu
 					}
 				}
 		}
