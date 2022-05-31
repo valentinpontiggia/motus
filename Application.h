@@ -11,9 +11,10 @@
 using namespace std;
 using namespace sf;
 
-class Application
+class Application : public Dessiner
 {
+
 public:
-	Application();
+	Application():Dessiner() {};
 	void Affichage(RenderWindow &window, Solution sol, Historique historique);
 };
