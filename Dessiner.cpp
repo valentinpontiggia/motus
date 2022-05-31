@@ -6,10 +6,17 @@
 
 using namespace std;
 
+Dessiner::Dessiner()
+{
+	
+}
+
+
 void Dessiner::drawletter(RenderWindow &window, Text text, Font font, char letter)
 {
+	// dans cette fonction, on définit l'endroit ou chaque lettre utilisée va etre écrite dans la fenetre
+	// elle sont rangées par ordre alphabétique sous les mots "lettres utilisees"
 	text.setFont(font);
-
 	text.setCharacterSize(30);
 	text.setFillColor(sf::Color::White);
 	switch (letter) {
@@ -150,16 +157,15 @@ void Dessiner::drawletter(RenderWindow &window, Text text, Font font, char lette
 
 void Dessiner::erase(RenderWindow &window, bool c, RectangleShape carre2, int h, Text text)
 {
-	// Si c = 1 on veut effacer le dernier caractère rentré
-		// Efface le caractère en mettant un carré noir sur la fenêtre
+	// Si c = true on veut effacer le dernier caractère rentré
 	if (c == true)
 	{
-		window.draw(carre2);
-		drawgrid(window);
+		window.draw(carre2); // On efface le caractère en mettant un carré noir sur la fenêtre
+		drawgrid(window); // on redessine la grille initiale pour avoir un affichage correct
 	}
 	else // sinon on affiche le dernier caractère rentré
 	{
-		if (h == false) // permet de réguler le nombre de lettres affichées
+		if (h == false) // permet de réguler le nombre de lettres affichées sur la fenetre
 		{
 			window.draw(text);
 		}
@@ -204,6 +210,7 @@ void Dessiner::drawgrid(RenderWindow &window)
 	for (size_t i = 0; i < lines.size(); i++)
 		window.draw(lines[i]);
 
+	// Zone d'affichage des lettres utilisees a droite de la grille
 	text.setFont(font);
 	text.setString("LETTRES UTILISEES:");
 	text.setCharacterSize(30);
@@ -219,22 +226,22 @@ int Dessiner::Verify(RenderWindow &window, string s2, bool b, Text text2, Font f
 	//On verifie que la chaine rentré est bien de 6 lettres
 	if (s2.size() == 6)
 	{
-		// Si on a bien validé le mot rentré avec la touche "entrer", b est à 1
+		// Si on a bien validé le mot rentré avec la touche "entrer" et que ce mot existe, b est à vrai
 		if (b == true)
 		{
 			for (int m = 0; m < 6; m++)
 			{
-				drawletter(window, text2, font, s2[m]);
+				drawletter(window, text2, font, s2[m]); // écrit sur la fenetre chaque lettre utilisée
 			}
 
-			// On verifie alors si il y a des lettres mal placées
+			// On verifie si il y a des lettres mal placées
 			for (int k = 0; k < 6; k++)
 			{
 				for (int l = 0; l < 6; l++)
 				{
 					if (s2[k] == s4[l])
 					{
-						drawreplace(window, p3 + k * 116, p7, s2[k], text, p9, p8, k);
+						drawreplace(window, p3 + k * 116, p7, s2[k], text, p9, p8, k); // si elles sont mal placées, un rond jaune se dessinera autour d'elles
 					}
 				}
 
@@ -246,48 +253,48 @@ int Dessiner::Verify(RenderWindow &window, string s2, bool b, Text text2, Font f
 				if (s2[i] == s4[i])
 				{
 
-					drawright(window, p3 + i * 116, p4); // Affiche par un carré rouge les lettres bien placées
+					drawright(window, p3 + i * 116, p4); // Affiche par un carré rouge autour de la lettre bien placée
 					text.setString(s2[i]);
-					r = r + 1;
-					text.setPosition(p9 + i * 116, p6);
+					r = r + 1; // s'il y a une letttre bien placée, on incrémente la variable r
+					text.setPosition(p9 + i * 116, p6); // on redessine la lettre qui aura été cachée par le carré rouge
 					window.draw(text);
 				}
 				else
-					r = 0;
+					r = 0; // s'il n'y a aucune lettre bien placée, r est à 0
 			}
 			drawgrid(window);
 		}
 	}
-	return r;
+	return r; // on retourne le nombre de lettre bien placées
 }
 
-void Dessiner::drawright(RenderWindow &window, int p2, int p3) // fonction qui crée un carré rouge
+void Dessiner::drawright(RenderWindow &window, int p2, int p3) 
 {
+	// cette fonction définie comment dessiner un carré rouge qui va correspondre aux lettres bien placées
 	RectangleShape carre(Vector2f(117, 117));
 	carre.setFillColor(Color::Red);
 	carre.setPosition(p2, p3);
 	window.draw(carre);
 }
 
-void Dessiner::drawreplace(RenderWindow &window, int p2, int p3, char s, Text text, int p9, int p8, int k) // fonction qui crée un rond jaune
+void Dessiner::drawreplace(RenderWindow &window, int p2, int p3, char s, Text text, int p9, int p8, int k)
 {
+	// cette fonction définie comment dessiner un rond jaune qui va correspondre aux lettres mal placées
 	CircleShape circle(55);
 	circle.setFillColor(Color::Yellow);
 	circle.setPosition(p2, p3);
-	window.draw(circle);// Affiche par un rond jaune les lettres mal placées
+	window.draw(circle);
 	text.setString(s);
 	text.setPosition(p9 + k * 116, p8);
-	window.draw(text);
+	window.draw(text); // on redessine la lettre qui aura été cachée par le rond jaune
 }
 
 void Dessiner::resultat(RenderWindow &window, int essai, int r, Text text2, Font font, string s4)
 {
 	Event event2;
-	// Si tu ne trouves pas le mot s'affiche
-	// Si tu trouves un message s'affiche
-	if (r == 6)
+	if (r == 6) // si le nombre de lettres bien placées vaut 6 alors on a résolu le motus
 	{
-		RenderWindow window1(sf::VideoMode(1000, 100), "Reponse");
+		RenderWindow window1(sf::VideoMode(1000, 100), "Reponse"); // une fenetre réponse va s'ouvrir
 		while (window1.isOpen())
 		{
 			while (window1.pollEvent(event2))
@@ -300,6 +307,7 @@ void Dessiner::resultat(RenderWindow &window, int essai, int r, Text text2, Font
 				}
 
 			}
+			// on affiche sur cette fenetre un message qui dit que l'on a gagné
 			text2.setFont(font);
 			text2.setString("Bravo! Tu as trouvé le mot " + s4);
 			text2.setCharacterSize(50);
@@ -308,9 +316,9 @@ void Dessiner::resultat(RenderWindow &window, int essai, int r, Text text2, Font
 			window1.display();
 		}
 	}
+	// Si le nombre de tentatives maxium est atteint, on va ouvrir une fenetre réponse
 	else if (essai == 12)
 	{
-
 
 		RenderWindow window1(sf::VideoMode(1000, 100), "Reponse");
 		while (window1.isOpen())
@@ -325,6 +333,7 @@ void Dessiner::resultat(RenderWindow &window, int essai, int r, Text text2, Font
 				}
 
 			}
+			// sur cette fenetre réponse va s'afficher la solution
 			text2.setFont(font);
 			text2.setString("Le mot etait " + s4);
 			text2.setCharacterSize(50);
