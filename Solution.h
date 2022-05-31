@@ -1,11 +1,12 @@
 #pragma once
 #include <string>
-#include "Word.h"
+#include "word.h"
 using namespace std;
-// Contient la solution tirée aléatoirement
+
+
 class Solution : public Word
 {
-	Word sol_;
 public:
-	Solution tirerAleatoirement();
+	Solution(const string &nom, const int &taille) : Word(nom, taille) {};
+	void tirerAleatoirement();
 };
