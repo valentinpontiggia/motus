@@ -1,0 +1,4 @@
+      4               poulet          Victoire
+      2               braise          Victoire
+      6               maison          Défaite
+      4               ballon          Victoire
