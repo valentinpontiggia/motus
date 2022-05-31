@@ -12,7 +12,7 @@ Application::Application()
 }
 
 
-void Application :: Affichage(RenderWindow &window, Solution solution)
+void Application :: Affichage(RenderWindow &window, Solution solution, Historique historique)
 {
 	Dessiner graphic;
 	Text Lettre, message_erreur, LettreUtil;
@@ -155,5 +155,17 @@ void Application :: Affichage(RenderWindow &window, Solution solution)
 
 		window.display();
 
+	}
+	if (tentative == 12 || tentative == 0)
+	{
+		historique.ecrireHistorique(solution.getNom(), tentative / 2, false);
+		Menu menu(700, 700);
+		menu.afficherMenu(menu); //retour au menu
+	}
+	else
+	{
+		historique.ecrireHistorique(solution.getNom(), tentative / 2, true);
+		Menu menu(700, 700);
+		menu.afficherMenu(menu); //retour au menu
 	}
 }
