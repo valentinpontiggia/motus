@@ -5,18 +5,16 @@ using namespace std;
 class Word
 {
 	string nom_;
-	//int* tableau_;		// Pointeur pour le tableau dynamique
-	int taille_;		// Taille du mot-clé.
+	int taille_;		
 public:
-	Word(string nom = "", int taille = 6);
-	//Word(const Word& c);  // Constructeur de copie
-	~Word();
+	Word(string nom = "", int taille = 0);
 	char& operator[](int i);
-	//void operator=(const Word& c);
-	//void saisir();
+	void operator=( Word &w);
 	void setNom(string valeur) { nom_ = valeur; };
+	void reduire(int valeur);
+	void setTaille(int valeur) { taille_ = valeur; };
 	string getNom() { return nom_; };
+	int getTaille() { return taille_; };
 	void afficher() const;
-	//void tirerAleatoirement();
-	//void verifier(const Keyword& c, int& nbBonnePos, int& nbMauvaisePos) const;
+	void MinToMaj();
 };
