@@ -6,15 +6,10 @@
 using namespace std;
 using namespace sf;
 
-Application::Application()
+
+
+void Application :: Affichage(RenderWindow &window, Solution solution, Historique historique)
 {
-
-}
-
-
-void Application::Affichage(RenderWindow& window, Solution solution)
-{
-	Dessiner graphic;
 	Text Lettre, message_erreur, LettreUtil;
 	Font font;
 	font.loadFromFile("arial.ttf");
@@ -29,7 +24,7 @@ void Application::Affichage(RenderWindow& window, Solution solution)
 	solution.MinToMaj();
 	while (window.isOpen())
 	{
-		graphic.drawgrid(window);
+		drawgrid(window);
 		Event event;
 
 		while (window.pollEvent(event))
@@ -118,15 +113,15 @@ void Application::Affichage(RenderWindow& window, Solution solution)
 				erreur = false;
 			}
 		}
+		
+		erase(window, effacer,efface_lettre, affiche_lettre, Lettre);
 
-		graphic.erase(window, effacer, efface_lettre, affiche_lettre, Lettre);
-
-		r = graphic.Verify(window, essai.getNom(), essai.getExistence(), LettreUtil, font, Lettre, solution.getNom(), p3, p4, p6, p7, p8, p9);
+		r = Verify(window, essai.getNom(), essai.getExistence(), LettreUtil, font, Lettre, solution.getNom(), p3, p4, p6, p7, p8, p9);
 
 
 		if (valider == true)
 		{
-			mot_rentre = "";
+			mot_rentre ="";
 			valider = false;
 		}
 
@@ -151,9 +146,21 @@ void Application::Affichage(RenderWindow& window, Solution solution)
 		}
 
 
-		graphic.resultat(window, tentative, r, LettreUtil, font, solution.getNom());
+		resultat(window, tentative, r, LettreUtil, font, solution.getNom());
 
 		window.display();
 
+	}
+	if (tentative == 12 || tentative == 0)
+	{
+		historique.ecrireHistorique(solution.getNom(), tentative / 2, false);
+		Menu menu(700, 700);
+		menu.afficherMenu(menu); //retour au menu
+	}
+	else
+	{
+		historique.ecrireHistorique(solution.getNom(), tentative / 2, true);
+		Menu menu(700, 700);
+		menu.afficherMenu(menu); //retour au menu
 	}
 }
