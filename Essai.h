@@ -1,14 +1,38 @@
 #pragma once
+#include <iostream>
+#include <fstream>
+#include "Essai.h"
 #include <string>
-#include "Word.h"
-#include "Solution.h"
+//peut-être trop d'include mais on pourra supprimer le surplus plus tard
 using namespace std;
-// Contient les mots à tester par le joueur
-class Essai : public Word
+
+Essai::Essai(bool existe, const string &nom, const int &taille) :Word(nom, taille)
 {
-	Word test_;
-public :
-	void Colorier(Essai mot_compare);
-	void Comparer(Essai mot_compare, Solution solution);
-	void Existence(Essai Mot);
-};
+	existe_ = existe;
+}
+
+
+void Essai :: Existence()
+{
+	string mot_compare;
+	ifstream file;
+	bool r = false;
+	file.open("liste_finale.txt");
+	if (!file.is_open())
+	{
+		cout << "Le fichier n existe pas " << endl;
+		system("pause");
+	}
+	else
+		while (file >> mot_compare)
+		{
+			if (mot_compare == getNom()) //on compare le mot de la ligne au mot testé
+				existe_ = true;
+		}
+}
+
+
+void Essai::operator=(Word &w)
+{
+	existe_ = false;
+}
