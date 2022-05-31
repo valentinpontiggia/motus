@@ -7,17 +7,17 @@
 using namespace sf;
 using namespace std;
 
-void Historique :: ecrireHistorique(string mot, int nb_essais, bool victoire) //à mettre dans fichier jeu
+void Historique::ecrireHistorique(string mot, int nb_essais, bool victoire) //à mettre dans fichier jeu
 {
 	fstream historique("historique.txt"); //ouvre le fichier historique.txt dans historique
 	if (historique.is_open())
 	{
-		
-	historique.seekp(0, ios::end); //place le curseur à la fin du fichier
-	if (victoire)
-		historique << "      "+to_string(nb_essais) + "               " + mot + "          Victoire" + "\n"; // rentre nb_essais dans le fichier historique.txt
-	else
-		historique << "      "+to_string(nb_essais) + "               " + mot + "          Défaite" + "\n";
+
+		historique.seekp(0, ios::end); //place le curseur à la fin du fichier
+		if (victoire)
+			historique << "      " + to_string(nb_essais) + "               " + mot + "          Victoire" + "\n"; // rentre nb_essais dans le fichier historique.txt
+		else
+			historique << "      " + to_string(nb_essais) + "               " + mot + "          Défaite" + "\n";
 	}
 	historique.close();
 }
@@ -54,8 +54,8 @@ Historique::Historique(float largeur, float hauteur)
 	}
 	for (int i = 0; i <= dernierscoups.size() && i < 4; i++) //
 	{
-		historique[i+2].setFont(font);
-		historique[i+2].setFillColor(Color::White);
+		historique[i + 2].setFont(font);
+		historique[i + 2].setFillColor(Color::White);
 		historique[i + 2].setString(dernierscoups[i]);
 
 	}
