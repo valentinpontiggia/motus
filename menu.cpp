@@ -1,9 +1,10 @@
 #include "menu.h"
 #include "historique.h"
+#include "Application.h"
 using namespace sf;
 
 
-Menu::Menu(float hauteur,float largeur)
+Menu::Menu(float hauteur, float largeur)
 {
 	if (!font.loadFromFile("arial.ttf"))
 	{
@@ -62,7 +63,7 @@ void Menu::afficher(RenderWindow& window)
 
 void Menu::afficherMenu(Menu Menu)
 {
-	
+
 	RenderWindow window(VideoMode(700, 700), "MOTUS");
 	Historique historique(700, 700);
 
@@ -78,11 +79,16 @@ void Menu::afficherMenu(Menu Menu)
 				if (event.mouseButton.button == Mouse::Left)
 				{
 					if (event.mouseButton.x >= 270 && event.mouseButton.x <= 500) { //si la souris clique sur un point d'abscisse l'une des options
-						//if (event.mouseButton.y >=310 && event.mouseButton.y <= 330) //insérer les fonctions qui lancent le jeu, pas oublier les include
-						//{
-						// 
-						//	maingraphic();
-						//}
+						if (event.mouseButton.y >=330 && event.mouseButton.y <= 350) //insérer les fonctions qui lancent le jeu, pas oublier les include
+						{
+							window.close();
+							RenderWindow window(sf::VideoMode(1100, 700), "MOTUS");
+							Solution sol("", 0);
+							sol.tirerAleatoirement();
+							cout << sol.getNom();
+							Application motus;
+							motus.Affichage(window, sol, historique);
+						}
 						if (event.mouseButton.y >= 430 && event.mouseButton.y <= 470) //si la souris clique sur un point d'ordonnée de l'option historique
 						{
 							historique.afficherHistorique(historique, window);
@@ -93,9 +99,6 @@ void Menu::afficherMenu(Menu Menu)
 						}
 					}
 				}
-			//case Event::Closed:
-				//window.close();
-				//break;
 			}
 		}
 		window.clear();
