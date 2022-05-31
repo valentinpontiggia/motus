@@ -37,6 +37,21 @@ Menu::~Menu()
 {
 }
 
+Text textPointed(RenderWindow& window, Text& text) //change la couleur du texte s'il est pointé
+{
+	if (text.getGlobalBounds().contains(Mouse::getPosition(window).x, Mouse::getPosition(window).y))
+	{
+		text.setFillColor(Color::Red);
+		text.setStyle(Text::Underlined);
+	}
+	else
+	{
+		text.setFillColor(Color::White);
+		text.setStyle(Text::Regular);
+	}
+	return text;
+}
+
 void Menu::afficher(RenderWindow& window)
 {
 	for (int i = 0; i < 4; i++)
@@ -49,19 +64,12 @@ void Menu::afficherMenu(Menu Menu)
 {
 	
 	RenderWindow window(VideoMode(700, 700), "MOTUS");
-	FloatRect rectJouer = menu[1].getGlobalBounds();
-	FloatRect rectHistorique = menu[2].getGlobalBounds();
-	FloatRect rectQuitter = menu[3].getGlobalBounds();
-
-	Historique historique(700, 700, 0);
+	Historique historique(700, 700);
 
 	while (window.isOpen())
 	{
-		Vector2i intlocalPosition = Mouse::getPosition(window);
-		Vector2f localPosition(intlocalPosition.x, intlocalPosition.y);
 		Event event;
 		window.clear();
-	
 		while (window.pollEvent(event))
 		{
 			switch (event.type)
@@ -69,15 +77,14 @@ void Menu::afficherMenu(Menu Menu)
 			case Event::MouseButtonPressed:
 				if (event.mouseButton.button == Mouse::Left)
 				{
-					if (event.mouseButton.x >= 270 && event.mouseButton.x <= 500) {
-						//if (event.mouseButton.y >=310 && event.mouseButton.y <= 330)
+					if (event.mouseButton.x >= 270 && event.mouseButton.x <= 500) { //si la souris clique sur un point d'abscisse l'une des options
+						//if (event.mouseButton.y >=310 && event.mouseButton.y <= 330) //insérer les fonctions qui lancent le jeu, pas oublier les include
 						//{
 						// 
 						//	maingraphic();
 						//}
-						if (event.mouseButton.y >= 430 && event.mouseButton.y <= 470)
+						if (event.mouseButton.y >= 430 && event.mouseButton.y <= 470) //si la souris clique sur un point d'ordonnée de l'option historique
 						{
-							historique.ecrireHistorique(4);
 							historique.afficherHistorique(historique, window);
 						}
 						if (event.mouseButton.y >= 560 && event.mouseButton.y <= 610)
@@ -86,25 +93,15 @@ void Menu::afficherMenu(Menu Menu)
 						}
 					}
 				}
-			case Event::MouseMoved:
-				if (rectJouer.contains(localPosition))
-				{
-					menu[1].setFillColor(Color::Red);
-				}
-				else if (rectHistorique.contains(localPosition))
-					menu[2].setFillColor(Color::Red);
-				else if (rectQuitter.contains(localPosition))
-					menu[3].setFillColor(Color::Red);
-				else
-				{
-					menu[1].setFillColor(Color::White);
-					menu[2].setFillColor(Color::White);
-					menu[3].setFillColor(Color::White);
-				}
-				break;
+			//case Event::Closed:
+				//window.close();
+				//break;
 			}
 		}
 		window.clear();
+		menu[1] = textPointed(window, menu[1]);
+		menu[2] = textPointed(window, menu[2]);
+		menu[3] = textPointed(window, menu[3]);
 		Menu.afficher(window);
 		window.display();
 	}
