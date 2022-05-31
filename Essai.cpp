@@ -31,8 +31,3 @@ void Essai :: Existence()
 		}
 }
 
-
-void Essai::operator=(Word &w)
-{
-	existe_ = false;
-}
