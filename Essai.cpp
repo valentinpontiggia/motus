@@ -3,16 +3,16 @@
 #include <fstream>
 #include "Essai.h"
 #include <string>
-//peut-être trop d'include mais on pourra supprimer le surplus plus tard
+
 using namespace std;
 
-Essai::Essai(bool existe, const string &nom, const int &taille) :Word(nom, taille)
+Essai::Essai(bool existe, const string& nom, const int& taille) :Word(nom, taille)
 {
 	existe_ = existe;
 }
 
 
-void Essai :: Existence()
+void Essai::Existence()
 {
 	string mot_compare;
 	ifstream file;
@@ -30,4 +30,3 @@ void Essai :: Existence()
 				existe_ = true;
 		}
 }
-
