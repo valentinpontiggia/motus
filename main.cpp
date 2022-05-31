@@ -1,30 +1,22 @@
-//#include <SFML/Graphics.hpp>
-/*int main()
-{
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-		shape.setFillColor(sf::Color::Green);
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-		window.clear();
-		window.draw(shape);
-		window.display();
-	}
-	return 0;
-}*/
-
+#include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Word.h"
+#include <vector>
+#include <string>
+#include "word.h"
+#include "Application.h"
+#include "menu.h"
+#include "historique.h"
+#include <ctime>
 using namespace std;
+using namespace sf;
+
 
 int main()
 {
-	Word a ("Salut", 6);
-	a.afficher();
+	srand(time(NULL));
+	Menu menu(700, 700);
+	menu.afficherMenu(menu);
+
+	system("pause");
+	return 0;
 }
