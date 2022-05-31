@@ -43,8 +43,6 @@ void Solution::tirerAleatoirement()
 					else
 					{
 						setNom(mot_actuel); //notre Solution mot_final voit son champ nom_ (de type string) = ligne lue actuellement
-						taille = mot_actuel.size();
-						setTaille(taille); // Solution mot_final voit son champ taille_ = taille du mot lu actuellement
 					}
 				}
 			}
