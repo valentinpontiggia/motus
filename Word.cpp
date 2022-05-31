@@ -6,16 +6,15 @@
 
 using namespace std;
 
-Word::Word(string nom, int taille)
+Word::Word(string nom)
 {
 	nom_ = nom;
-	taille_ = taille;
 }
 
 
 char& Word::operator[](int i)
 {
-	if (i < 0 || i >= taille_)
+	if (i < 0 || i >= nom_.size())
 	{
 		cerr << "Dépassement d'indice : i = " << i;
 		abort();
@@ -26,7 +25,7 @@ char& Word::operator[](int i)
 
 void Word::afficher() const
 {
-	for (int i = 0; i < taille_; i++)
+	for (int i = 0; i < nom_.size(); i++)
 	{
 		cout << nom_[i];
 	}
@@ -45,14 +44,3 @@ void Word::MinToMaj() // fonction qui fait conerti une chaine minuscule en majus
 	}
 }
 
-
-void Word::operator=(Word &w) 
-{
-	nom_ = w.getNom();
-	taille_ = w.getTaille();
-}
-
-void Word::reduire(int valeur)
-{ 
-	nom_.resize(valeur);
-}
