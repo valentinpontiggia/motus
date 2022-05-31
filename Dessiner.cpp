@@ -3,7 +3,7 @@
 #include <fstream>
 #include "Dessiner.h"
 #include <string>
-//peut-être trop d'include mais on pourra supprimer le surplus plus tard
+
 using namespace std;
 
 void Dessiner::drawletter(RenderWindow &window, Text text, Font font, char letter)
@@ -333,5 +333,6 @@ void Dessiner::resultat(RenderWindow &window, int essai, int r, Text text2, Font
 			window1.display();
 		}
 	}
+
 
 }
