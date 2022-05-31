@@ -1,38 +1,15 @@
 #pragma once
-#include <iostream>
-#include <fstream>
-#include "Essai.h"
 #include <string>
-//peut-être trop d'include mais on pourra supprimer le surplus plus tard
+#include "word.h"
 using namespace std;
 
-Essai::Essai(bool existe, const string &nom, const int &taille) :Word(nom, taille)
+class Essai : public Word
 {
-	existe_ = existe;
-}
-
-
-void Essai :: Existence()
-{
-	string mot_compare;
-	ifstream file;
-	bool r = false;
-	file.open("liste_finale.txt");
-	if (!file.is_open())
-	{
-		cout << "Le fichier n existe pas " << endl;
-		system("pause");
-	}
-	else
-		while (file >> mot_compare)
-		{
-			if (mot_compare == getNom()) //on compare le mot de la ligne au mot testé
-				existe_ = true;
-		}
-}
-
-
-void Essai::operator=(Word &w)
-{
-	existe_ = false;
-}
+	bool existe_;
+public:
+	Essai(bool existe, const string &nom, const int &taille);
+	bool getExistence() { return existe_; };
+	void setExistence(bool valeur) { existe_ = valeur; };
+	void operator=(Word &w);
+	void Existence();
+};
